@@ -1,14 +1,15 @@
-// given an array of numbers: 
-// return an array where each element is the product of all elements except for the current index's element in the original array 
-
-(function(){
-    const arr = [1, 2, 3, 4, 2];
+{
+    const arr = [1, 2, 3];
 
     console.log(productExceptSelf(arr));
 
     function productExceptSelf(arr) {
+        if(arr.length === 0) {
+            return [];
+        }
+
         const returnArr = [];
-        let totalProduct = arr.length > 0 ? 1 : 0;
+        let totalProduct = 1;
 
         for(let i = 0; i < arr.length; i++) {
             totalProduct *= arr[i];
@@ -20,4 +21,4 @@
 
         return returnArr;
     }
-})();
+}
