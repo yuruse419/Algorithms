@@ -1,22 +1,23 @@
-// use multiple pointers to check if two strings are palindromes
-
-(function() {
-    const str1 = 'noon';
+{
+    const str1 = 'Noon';
 
     console.log(isPalindrome(str1));
 
     function isPalindrome(str) {
-        const bounds = [0, str.length - 1]; // bounds[0] => left, bounds[1] => right
+        str = str.toLowerCase();
 
-        while(bounds[0] < bounds[1]) {
-            if(str[bounds[0]] !== str[bounds[1]]) {
+        let left = 0;
+        let right = str.length - 1;
+
+        while(left < right) {
+            if(str[left] !== str[right]) {
                 return false;
             }
 
-            bounds[0]++;
-            bounds[1]--;
+            left++;
+            right--;
         }
 
         return true;
     }
-})();
+}
