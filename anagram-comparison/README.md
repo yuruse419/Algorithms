@@ -4,7 +4,7 @@
 This algorithm demonstrates two solutions for comparing strings and determining if they are anagrams of one another.
 
 ## Preface
-1. The first solution is the initial attempt at solving this, and the second is a cleaned up version of it utilizing more intuitive logic.
+1. The first solution is the initial attempt at solving this, and the second is a cleaned up version of it with increased efficiency.
 2. The lengths of both strings are compared first, and if they do not equal, it is immediately determined that they are not anagrams.
 3. Another data structure, an object, is utilized to bring order to the characters in both strings.
 4. Both solutions have a linear time complexity.
@@ -47,12 +47,12 @@ This algorithm demonstrates a solution for comparing strings in an array and gro
 
 ### Solution
 1. Three variables are initialized: 
-    * returnArr: An array to store subarrays of anagrams.
-    * cache: An object whose property keys are the ASCII value sums of each character in each string and whose property values are arrays of the strings with the associated ASCII value sum.
-    * sum: A number to sum up ASCII values for each character in each string.
-2. The input array is iterated over, ASCII value sums are calculated and stored, and properties are added to the object.
-    * It is required to have a nested for loop to iterate over the characters in each string.
-    * If a property does not exist for the current sum, it is created with an empty array as its value.
-    * The string is pushed to the array at the property with the sum as its key, which was either just created or was created for a previous string.
-3. The object is iterated over, and each property value is pushed to the return array.
-4. The array of grouped anagrams is returned.
+    * **returnArr**: An array to store subarrays of anagrams.
+    * **cache**: An object whose property keys are the ASCII value sums of each character in each string and whose property values are arrays of the strings with the associated ASCII value sum.
+    * **sum**: A number to sum up ASCII values for each character in each string.
+2. The input array is iterated over, ASCII value sums are calculated and stored in **sum**, and properties are added to **cache**.
+    * This solution requires a nested for loop to iterate over the characters in each string.
+    * If a property does not exist for the current value of **sum**, it is created with an empty array as its value.
+    * The string is pushed to the array at the property with the current value of **sum** as its key, which was either just created or was created for a previous string.
+3. **cache** is iterated over, and each property value (i.e., each array of anagrams) is pushed to **returnArr**.
+4. **returnArr** is returned.

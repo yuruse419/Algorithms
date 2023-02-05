@@ -12,9 +12,9 @@ This algorithm demonstrates a solution for checking if a string is a palindrome 
 
 ### Solution
 1. Two variables are initialized: 
-    * left: Stores the leftmost pointer, starting at the beginning of the input string.
-    * right: Stores the rightmost pointer, starting at the end of the input string.
-2. While the variable left is less than the variable right, the following check is made:
-    * If the character at the left index does not equal the character at the right index, it is determined that the string is not a palindrome.
-        * If this check is passed, left is incremented and right is decremented.
+    * **left**: Stores the leftmost pointer, starting at the beginning of the input string.
+    * **right**: Stores the rightmost pointer, starting at the end of the input string.
+2. While **left** is less than **right**, the following check is made:
+    * If the character at index **left** does not equal the character at index **right**, it is determined that the string is not a palindrome.
+        * If this check is passed, **left** is incremented and **right** is decremented.
 3. If it completes all of the checks over the string, it is determined that the string is a palindrome.
