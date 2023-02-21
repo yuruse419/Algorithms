@@ -2,82 +2,77 @@
 
 ## Intention
 
-This algorithm demonstrates three solutions for taking an unsorted array of numbers and a given "window size" to return the sum of the window whose sum is highest.
+This algorithm demonstrates three solutions for taking an unsorted array of numbers and a given "window size," winSize, to return the sum of the window whose sum is highest.
 
 ## Preface
 
-1. The first solution is the initial attempt at solving this, and the second is a cleaned up version of it with increased efficiency.
-2. The lengths of both strings are compared first, and if they do not equal, it is immediately determined that they are not anagrams.
-3.
-4. Both solutions have a linear time complexity.
+1. The first two solutions were initial attempts at solving this, and the third utilizes a different approach.
+2. Two variables are used in common for all three solutions:
+   - **prevHighest**: Stores the previous highest window sum. Initialized to 0.
+   - **currentSum**: Stores the current window sum.
+3. **prevHighest** is returned for all three solutions.
 
 ### Solution 1
 
-1. Another data structure, an object, is utilized to store necessary values:
-   -
-
-// Method 1
-// const sumData = {
-// lastHighest: 0
-// // lastSum,
-// // currentSum
-// };
-
-        // // calculate first window sum
-        // for(let i = 0; i < winSize; i++) {
-        //     sumData.lastHighest += arr[i];
-        //     sumData.lastSum = sumData.lastHighest;
-        // }
-
-        // // iterate over the array from its second element to the element that starts its last window
-        // for(let i = 1; i <= arr.length - winSize; i++) {
-        //     // set the current sum as the last
-        //     sumData.currentSum = sumData.lastSum - arr[i - 1] + arr[i + winSize - 1];
-
-        //     if(sumData.currentSum > sumData.lastHighest) {
-        //         sumData.lastHighest = sumData.currentSum;
-        //     }
-
-        //     sumData.lastSum = sumData.currentSum;
-        // }
-
-        // return sumData.lastHighest;
+1. A third variable is used:
+   - **prevSum**: Stores the previous window sum. Not assigned a value until used.
+2. The first window is iterated over completely:
+   - **prevHighest** and **prevSum** are assigned to the sums of all elements in this window.
+3. The array is iterated over from its second element (**index = 1**) to the first element of the last window (**index = (length - winSize)**):
+   - **currentSum** is assigned the value of **prevSum** minus the last element of the previous window and plus the last element of the current window.
+   - If **currentSum** is greater than **prevHighest**, **prevHighest** is assigned the value of **currentSum**.
+   - **prevSum** is also assigned the value of **currentSum**, but on every iteration regardless of any conditionals.
 
 ### Solution 2
 
-1. The first string is iterated over with a for loop, and properties are added to the object.
-   - The keys are now just the characters at each index in the first string: **[string1[index]]**.
-   - The values will equal the number of times the character at **index** has appeared.
-2. The second string is then iterated over with a for loop, and a decrement is applied to each property value in the object.
-   - If a character in the second string is not a property key in the object, or if it is but its value is 0, it is determined that the strings are not anagrams.
-   - If both of these checks are passed, it will decrement the property value by one.
-     - By doing this, we know that if the same character appears again in the second string but its property value in the object is 0, the character appears more times in the second string than it does the first.
-3. If it completes the iteration over the second string, it is determined that the strings are anagrams.
+1. The array is iterated over from the first element (**index = 0**) to the first element of the last window (**index = (length - winSize)**)
+   - **currentSum** is assigned a value of 0.
+   - The elements in the current window are iterated over.
+     - **currentSum** is accumulated with the values of these elements.
+   - If **currentSum** is greater than **prevHighest**, **prevHighest** is assigned the value of **currentSum**.
+2. **prevHighest** is returned.
+
+### Solution 3
+
+1. Two additional variables are used, and **currentSum** is initialized to 0:
+   - **start**: The start index of the sliding window. Initialized to 0.
+   - **end**: The end index of the sliding window. Initialized to 0.
+2. A while loop is used with the condition that end is less than the array's length.
+   - The element at index **end** is added to **currentSum**.
+   - A check is made for if end is greater than or equal to the window size minus one. That is, on every iteration after the first window's sum is calculated:
+     - **prevHighest** is checked against **currentSum** to keep/update its value.
+       - _Math.max_ is used to do the comparison of which is higher.
+     - The element at index **start** is subtracted from **currentSum**.
+     - **start** is incremented.
+       - Note that **start** is only incremented after the first window's sum is calculated, but at this point both **start** and **end** are incremented together to keep the window "sliding."
+   - **end** is incremented.
 
 # alg2.js
 
 ## Intention
 
-This algorithm demonstrates a solution for comparing strings in an array and grouping together ones that are anagrams of each other.
+This algorithm demonstrates a solution for returning the length of the longest substring without repeating characters of a given string.
 
 ## Preface
 
-1. It is assumed that all strings are of the same length and none of them have repeating characters. If characters repeated, a different solution would need to be implemented.
-2. The results are returned in an array. Grouped anagrams are in subarrays of this array.
-3. ASCII codes are used as assignment of numeric value to a-z letters. Anagrams are identified by these values: All strings whose characters have the same ASCII value sum are anagrams, given that there are no repeated characters.
-4. The _toLowerCase_ string method is used to ensure characters are given the same ASCII value regardless of capitalization.
-5. Another data structure, an object, is utilized to group strings with equal ASCII value sums.
-6. This solution has a linear time complexity.
+1. This solution utilizes a Set.
+2. This solution has a linear time complexity.
 
 ### Solution
 
-1. Three variables are initialized:
-   - **returnArr**: An array to store subarrays of anagrams.
-   - **cache**: An object whose property keys are the ASCII value sums of each character in each string and whose property values are arrays of the strings with the associated ASCII value sum.
-   - **sum**: A number to sum up ASCII values for each character in each string.
-2. The input array is iterated over, ASCII value sums are calculated and stored in **sum**, and properties are added to **cache**.
-   - This solution requires a nested for loop to iterate over the characters in each string.
-   - If a property does not exist for the current value of **sum**, it is created with an empty array as its value.
-   - The string is pushed to the array at the property with the current value of **sum** as its key, which was either just created or was created for a previous string.
-3. **cache** is iterated over, and each property value (i.e., each array of anagrams) is pushed to **returnArr**.
-4. **returnArr** is returned.
+1. Four variables are initialized:
+   - **start**: The index of the first character in the current substring. Initialized to 0.
+   - **end**: The index of the last character in the current substring. Initialized to 0.
+   - **longest**: The length of the longest substring thus far. Initialized to 0.
+   - **rollingWindow**: A Set of string characters.
+2. A while loop is used with the condition that end is less than the input string's length.
+   - A check is made for if **rollingWindow** contains the character at the **end** index.
+     - If it does:
+       - _Math.max_ is used to check/update **longest**.
+       - **start** is set to the value of **end**.
+         - This jumps to the start of the next substring that can possibly have a length greater than **longest**.
+       - **rollingWindow** is cleared of its stored items.
+     - If it does not:
+       - The character at the **end** index is added to **rollingWindow**.
+       - **end** is incremented by one.
+3. After the while loop, a final check is done to update **longest**, and **longest** is returned.
