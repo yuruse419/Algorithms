@@ -1,93 +1,63 @@
-/* 
-    Given an unsorted array of numbers, arr, and a "window size," winSize, return the sum of the window whose sum is highest.
+{
+  const arr = [3, 2, 1, 0, 1, 2, 3, 4, 5, 6];
+  const winSize = 3;
+  // Highest: 15 (4 + 5 + 6)
 
-    Calculations:
-        Method 1:
-            Calculations for each window sum equals 3, except for the first which equals winSize. The number of windows equals (arr.length - winSize + 1).
-            Total Calculations: winSize + (arr.length - winSize) * 3.
-        Method 2:
-            Calculations for each window sum equals winSize. The number of windows equals (arr.length - winSize + 1).
-            Total Calculations: (arr.length - winSize + 1) * winSize.
-        
-        Distinctions:
-            If winSize is greater than three but less than arr.length, Method 1 will have less calculations than Method 2.
-            If winSize is less than three, Method 2 will have less calculations than Method 1.
-            If winSize is three or the same as arr.length, Method 1 and Method 2 will have equal calculations.
-*/
+  console.log(highestSum(arr, winSize));
 
-(function() {
-    const arr = [3, 2, 1, 0, 1, 2, 3, 4, 5, 6];
-    const winSize = 3;
+  function highestSum(arr, winSize) {
+    let prevHighest = 0;
+    let currentSum;
 
-    console.log(highestSum(arr, winSize));
+    // Solution 1
+    // let prevSum;
 
-    function highestSum(arr, winSize) {
-        // Method 1
-        // const sumData = {
-        //     lastHighest: 0
-        //     // lastSum,
-        //     // currentSum
-        // };
+    // for (let i = 0; i < winSize; i++) {
+    //   prevHighest += arr[i];
+    //   prevSum = prevHighest;
+    // }
 
-        // // calculate first window sum
-        // for(let i = 0; i < winSize; i++) {
-        //     sumData.lastHighest += arr[i];
-        //     sumData.lastSum = sumData.lastHighest;
-        // }
+    // for (let i = 1; i <= arr.length - winSize; i++) {
+    //   currentSum = prevSum - arr[i - 1] + arr[i + winSize - 1];
 
-        // // iterate over the array from its second element to the element that starts its last window
-        // for(let i = 1; i <= arr.length - winSize; i++) {
-        //     // set the current sum as the last 
-        //     sumData.currentSum = sumData.lastSum - arr[i - 1] + arr[i + winSize - 1];
+    //   if (currentSum > prevHighest) {
+    //     prevHighest = currentSum;
+    //   }
 
-        //     if(sumData.currentSum > sumData.lastHighest) {
-        //         sumData.lastHighest = sumData.currentSum;
-        //     }
+    //   prevSum = currentSum;
+    // }
 
-        //     sumData.lastSum = sumData.currentSum;
-        // }
+    // Solution 2
+    // for (let i = 0; i <= arr.length - winSize; i++) {
+    //   currentSum = 0;
 
-        // return sumData.lastHighest;
+    //   for (let j = 0; j < winSize; j++) {
+    //     currentSum += arr[i + j];
+    //   }
 
-        /* Method 2
-        let lastHighest = 0;
-        let currentSum;
+    //   if (currentSum > prevHighest) {
+    //     prevHighest = currentSum;
+    //   }
+    // }
 
-        for(let i = 0; i <= arr.length - winSize; i++) {
-            currentSum = 0;
+    // Solution 3
+    currentSum = 0;
+    let start = 0;
+    let end = 0;
 
-            for(let j = 0; j < winSize; j++) {
-                currentSum += arr[i + j];
-            }
+    while (end < arr.length) {
+      currentSum += arr[end];
 
-            if(currentSum > lastHighest) {
-                lastHighest = currentSum;
-            }
-        }
+      if (end >= winSize - 1) {
+        prevHighest = Math.max(prevHighest, currentSum);
+        currentSum -= arr[start];
+        start++;
+      }
 
-        return lastHighest;
-        */
-
-        // Method 3
-        let maxSum = 0;
-        let windowSum = 0;
-        let start = 0; // beginning of window
-        let end = 0; // end of window
-
-        while (end < arr.length) {
-            windowSum += arr[end]; // add next element to rolling window
-
-            console.log(`end: ${end}`);
-
-            if (end >= winSize - 1) { // when the first window size reaches winSize, ...
-                maxSum = Math.max(maxSum, windowSum); // check/update if new window's sum is greater than the previous window's sum
-                windowSum -= arr[start]; // remove the first element from the rolling window
-                start++; // update the start pointer to follow the rolling window's first element
-            }
-
-            end++; // update the end pointer to follow the rolling window's last element
-        }
-        
-        return maxSum;
+      end++;
     }
-})();
+
+    // Return for all solutions
+    return prevHighest;
+  }
+}
